@@ -304,6 +304,13 @@
   .mclose { position: absolute; top: 10px; right: 14px; background: none; border: 0; color: #fff; font-size: 30px; cursor: pointer; }
   @media (max-width: 900px) { .glow { display: none; } }
 
+  /* Frase motivacional */
+  .training-quote { padding: clamp(56px, 7vw, 96px) 0; text-align: center; border-block: 1px solid var(--line); background: radial-gradient(ellipse at 50% 115%, rgba(198,241,53,.1), transparent 64%), #080808; }
+  .training-quote blockquote { max-width: 27ch; margin: 0 auto; font-size: clamp(24px, 4vw, 54px); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; text-wrap: balance; }
+  .training-quote figcaption { margin-top: 22px; font-size: 14px; font-weight: 700; color: var(--red); }
+  .training-quote a { text-decoration: underline; text-decoration-color: rgba(198,241,53,.55); text-underline-offset: 4px; }
+  .training-quote a:hover { text-decoration-color: currentColor; }
+
   /* ===== Transformação ===== */
   .tf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 60px; align-items: center; }
   .tf-fig { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #141414; border: 1px solid var(--line); }
@@ -564,6 +571,15 @@
       </div>
       <p class="empty" id="trainerEmpty">Nenhum personal nessa modalidade ainda.</p>
     </div>
+  </section>
+
+  <section class="training-quote" id="motivacao" aria-label="Frase motivacional">
+    <figure class="container reveal">
+      <blockquote cite="https://dworakpeck.usc.edu/news/school-celebrates-class-of-2009">
+        <p>“Você não sobe a escada do <span class="red">sucesso</span> com as mãos nos bolsos.”</p>
+      </blockquote>
+      <figcaption><a href="https://dworakpeck.usc.edu/news/school-celebrates-class-of-2009">Arnold Schwarzenegger</a></figcaption>
+    </figure>
   </section>
 
   <!-- TRANSFORMAÇÃO -->
