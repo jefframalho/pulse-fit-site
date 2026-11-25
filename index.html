@@ -80,20 +80,35 @@
   .title { font-size: clamp(38px, 5vw, 62px); }
   .title .w { color: #fff; }
   .lead { color: var(--muted); margin: 22px 0 34px; max-width: 480px; font-size: 16px; }
-  .collage { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; }
-  .collage img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); transition: filter .4s, transform .4s; }
-  .collage img:hover { filter: grayscale(1) contrast(1.15); transform: scale(1.02); }
-  .collage .tall { grid-row: span 2; aspect-ratio: 3/4; }
-  .collage .short { aspect-ratio: 4/3; }
-
   /* Modalidades */
-  .mod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .mod { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid transparent; padding: 28px 26px; cursor: pointer; transition: border-color .25s, transform .25s, background .25s; }
-  .mod:hover { border-left-color: var(--red); background: var(--panel-2); transform: translateX(4px); }
+  .modalities-head .title { text-wrap: balance; }
+  .modalities-head .lead { max-width: 58ch; margin: 16px 0 0; }
+  .modalities-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .mod-grid, .collage { display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .mod-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collage { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+  .collage figure { position: relative; overflow: hidden; background: var(--panel); }
+  .collage .tall { grid-row: span 2; }
+  .collage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 36%; filter: grayscale(1) contrast(1.05); transition: filter .4s, transform .4s; }
+  .collage img:hover { filter: grayscale(1) contrast(1.15); transform: scale(1.02); }
+  .mod { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid transparent; padding: 24px clamp(14px, 2vw, 26px); cursor: pointer; transition: border-color .25s, background .25s; }
+  .mod:hover { border-left-color: var(--red); background: var(--panel-2); }
   .mod .ico { font-size: 28px; margin-bottom: 14px; }
-  .mod h3 { font-size: 20px; margin-bottom: 8px; }
+  .mod h3 { font-size: clamp(17px, 1.6vw, 20px); margin-bottom: 8px; overflow-wrap: anywhere; }
   .mod p { color: var(--muted); font-size: 14px; }
-  .mod .go { color: var(--red); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 14px; display: inline-block; }
+  .mod .go { color: var(--red); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-top: auto; padding-top: 14px; align-self: flex-start; }
+  @media (max-width: 900px) {
+    .modalities-layout { grid-template-columns: minmax(0, 1fr); }
+    .collage { aspect-ratio: 3 / 2; }
+  }
+  @media (max-width: 480px) {
+    .mod-grid, .collage { gap: 10px; }
+    .mod { padding: 16px 10px; }
+    .mod .ico { margin-bottom: 8px; }
+    .mod h3 { font-size: clamp(14px, 3.55vw, 17px); }
+    .mod .go { font-size: 10px; letter-spacing: .5px; }
+    .collage { aspect-ratio: 4 / 3; }
+  }
 
   /* Exercícios */
   .alt { background: var(--panel); }
@@ -234,7 +249,6 @@
   @media (max-width: 900px) {
     .split { grid-template-columns: minmax(0, 1fr); gap: 40px; }
     .split.reverse .text { order: 0; }
-    .mod-grid { grid-template-columns: 1fr; }
     .plan:hover { transform: none; }
     section { padding-block: 80px; }
     .hero { padding-top: 118px; }
@@ -247,13 +261,8 @@
   }
   .side-text { position: fixed; left: 18px; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); font-family: "Archivo Black", sans-serif; font-size: 72px; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.14); letter-spacing: 10px; white-space: nowrap; pointer-events: none; z-index: 5; }
   .side-text b { color: transparent; -webkit-text-stroke: 1px var(--red); opacity: .55; font-weight: 400; }
-  .dumb { position: absolute; width: 150px; pointer-events: none; opacity: .9; z-index: 1; }
-  .dumb svg { width: 100%; height: auto; display: block; }
-  .dumb.l { left: -40px; top: 12%; transform: rotate(-35deg); }
-  .dumb.r { right: -40px; bottom: 10%; transform: rotate(40deg); }
-  #modalidades { overflow: clip; }
   #modalidades > .container, #exercicios > .container { position: relative; z-index: 2; }
-  @media (max-width: 900px) { .side-text { display: none; } .dumb { width: 90px; } }
+  @media (max-width: 900px) { .side-text { display: none; } }
 
   /* ===== Interatividade extra ===== */
   .glow { position: fixed; left: 0; top: 0; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; background: radial-gradient(circle, rgba(198,241,53,.10), transparent 60%); pointer-events: none; z-index: 3; opacity: 0; transition: opacity .4s; will-change: transform; }
@@ -348,14 +357,14 @@
   </section>
 
   <!-- MODALIDADES -->
-  <section id="modalidades">
-    <div class="dumb l" aria-hidden="true"><svg viewBox="0 0 200 80"><g fill="#141414" stroke="#c6f135" stroke-width="3"><rect x="0" y="18" width="24" height="44" rx="4"/><rect x="24" y="30" width="16" height="20" rx="2"/><rect x="40" y="36" width="120" height="8" rx="4"/><rect x="160" y="30" width="16" height="20" rx="2"/><rect x="176" y="18" width="24" height="44" rx="4"/></g></svg></div>
-    <div class="dumb r" aria-hidden="true"><svg viewBox="0 0 200 80"><g fill="#141414" stroke="#c6f135" stroke-width="3"><rect x="0" y="18" width="24" height="44" rx="4"/><rect x="24" y="30" width="16" height="20" rx="2"/><rect x="40" y="36" width="120" height="8" rx="4"/><rect x="160" y="30" width="16" height="20" rx="2"/><rect x="176" y="18" width="24" height="44" rx="4"/></g></svg></div>
-    <div class="container split">
-      <div class="text reveal">
+  <section id="modalidades" aria-labelledby="modalidadesTitulo">
+    <div class="container">
+      <div class="section-head modalities-head reveal">
         <span class="eyebrow">Modalidades</span>
-        <h2 class="title">Escolha <span class="red">seu</span><br><span class="w">treino</span></h2>
+        <h2 class="title" id="modalidadesTitulo">Escolha <span class="red">seu treino</span></h2>
         <p class="lead">Cada personal tem uma especialidade. Toque em uma modalidade para ver exercícios e profissionais disponíveis.</p>
+      </div>
+      <div class="modalities-layout">
         <div class="mod-grid">
           <div class="mod reveal" data-filter="musculacao">
             <div class="ico">🏋️</div>
@@ -382,11 +391,11 @@
             <a class="go mod-action" href="#exercicios" aria-label="Ver exercícios de Emagrecimento">Ver exercícios</a>
           </div>
         </div>
-      </div>
-      <div class="collage reveal">
-        <img class="tall" src="fotos/membros-superiores/supino-com-halteres.webp" alt="Supino com halteres" loading="lazy">
-        <img class="short" src="fotos/cardio/corrida-na-esteira.webp" alt="Corrida na esteira" loading="lazy">
-        <img class="short" src="fotos/abdomen-e-funcional/balanco-com-kettlebell.webp" alt="Balanço com kettlebell" loading="lazy">
+        <div class="collage reveal">
+          <figure class="tall"><img src="fotos/membros-superiores/supino-com-halteres.webp" alt="Supino com halteres" loading="lazy"></figure>
+          <figure><img src="fotos/cardio/corrida-na-esteira.webp" alt="Corrida na esteira" loading="lazy"></figure>
+          <figure><img src="fotos/abdomen-e-funcional/balanco-com-kettlebell.webp" alt="Balanço com kettlebell" loading="lazy"></figure>
+        </div>
       </div>
     </div>
   </section>
@@ -1101,7 +1110,7 @@
     });
 
     /* Cards com inclinação 3D */
-    $$('.trainer, .plan, .mod').forEach(card => {
+    $$('.trainer, .plan').forEach(card => {
       card.classList.add('tilt');
       card.addEventListener('mousemove', (e) => {
         if (reducedMotion.matches) return;
