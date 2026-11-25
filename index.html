@@ -80,14 +80,11 @@
   .title { font-size: clamp(38px, 5vw, 62px); }
   .title .w { color: #fff; }
   .lead { color: var(--muted); margin: 22px 0 34px; max-width: 480px; font-size: 16px; }
-  #modalidades .split { align-items: stretch; }
-  .collage { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; min-height: 520px; }
-  .collage img { width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: center; filter: grayscale(1) contrast(1.05); transition: filter .4s, transform .4s; }
+  .collage { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; }
+  .collage img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); transition: filter .4s, transform .4s; }
   .collage img:hover { filter: grayscale(1) contrast(1.15); transform: scale(1.02); }
-  .collage .tall { grid-column: 1; grid-row: 1 / span 2; }
-  .collage .short:nth-of-type(2) { grid-column: 2; grid-row: 1; }
-  .collage .short:nth-of-type(3) { grid-column: 2; grid-row: 2; }
-  @media (max-width: 900px) { .collage { min-height: 0; grid-template-rows: none; grid-template-columns: 1fr; } .collage img { height: auto; aspect-ratio: 4 / 3; } .collage .tall { grid-row: auto; grid-column: auto; aspect-ratio: 3 / 4; } .collage .short:nth-of-type(2), .collage .short:nth-of-type(3) { grid-column: auto; grid-row: auto; } }
+  .collage .tall { grid-row: span 2; aspect-ratio: 3/4; }
+  .collage .short { aspect-ratio: 4/3; }
 
   /* Modalidades */
   .mod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -284,8 +281,22 @@
 
   /* ===== Transformação ===== */
   .tf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 60px; align-items: center; }
+  .tf-fig { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #141414; border: 1px solid var(--line); }
+  .tf-fig img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .tf-fig img:not(:first-child) { opacity: 0; }
+  .tf-ctrl .big { font-family: 'Archivo Black', sans-serif; font-size: clamp(42px, 7vw, 64px); line-height: 1; color: var(--red); }
+  .tf-ctrl .state { font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 14px; margin: 8px 0 26px; }
+  .tf-ctrl input[type=range] { display: block; width: 100%; min-height: 32px; accent-color: var(--red); cursor: pointer; }
+  .tf-ctrl input[type=range]:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+  .tf-ctrl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 6px; }
+  .tf-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 14px; }
+  .tf-steps .chip { min-height: 44px; padding: 7px 3px; font-size: 11px; letter-spacing: .35px; }
+  .tf-steps .chip[aria-pressed=true] { background: var(--red); border-color: var(--red); color: #0b0b0b; }
+  .tf-ctrl .row2 { display: flex; gap: 12px; align-items: center; margin-top: 26px; flex-wrap: wrap; }
+  .tf-ctrl .note { color: var(--muted); font-size: 12px; margin-top: 22px; line-height: 1.5; }
   @media (max-width: 900px) {
     .tf { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .tf-fig { width: min(560px, 100%); margin-inline: auto; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -293,26 +304,6 @@
     .enhanced .reveal { opacity: 1; transform: none; }
     .glow { display: none; }
   }
-  /* ===== Silhueta da evolução ===== */
-  /* ===== Transformação ===== */
-  .sil { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .sil-fig { background: var(--panel); border: 1px solid var(--line); padding: 30px; display: flex; justify-content: center; }
-  .sil-fig svg { width: min(300px, 100%); height: auto; }
-  .sil-fig.dual { flex-direction: column; align-items: center; gap: 22px; }
-  .ia-card { width: min(300px, 100%); }
-  .ia-card img { width: 100%; display: block; filter: grayscale(1); }
-  .ia-card p { color: var(--muted); font-size: 12px; margin-top: 8px; line-height: 1.5; }
-  .sil-fig .shape { fill: #d9d9d9; transform-box: fill-box; transform-origin: center; transition: transform .35s ease; }
-  .sil-fig .belly { fill: #6b6b6b; transform-box: fill-box; transform-origin: center; transition: transform .35s ease, opacity .35s ease; }
-  .sil-fig .torso { transform-box: fill-box; transform-origin: center; transition: transform .35s ease; }
-  .sil-fig .head { fill: #ececec; }
-  .sil-ctrl .big { font-family: 'Archivo Black', sans-serif; font-size: 64px; line-height: 1; color: var(--red); }
-  .sil-ctrl .state { font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 14px; margin: 8px 0 26px; }
-  .sil-ctrl input[type=range] { width: 100%; accent-color: var(--red); cursor: pointer; }
-  .sil-ctrl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 6px; }
-  .sil-ctrl .row2 { display: flex; gap: 12px; align-items: center; margin-top: 26px; flex-wrap: wrap; }
-  .sil-ctrl .note { color: var(--muted); font-size: 12px; margin-top: 22px; line-height: 1.5; }
-  @media (max-width: 900px) { .sil { grid-template-columns: 1fr; gap: 36px; } }
 </style>
 </head>
 <body>
@@ -543,38 +534,33 @@
 
   <!-- TRANSFORMAÇÃO -->
   <section id="transformacao" class="alt">
-    <div class="container sil">
-      <div class="sil-fig dual reveal">
-        <svg viewBox="0 0 200 340" aria-label="Silhueta ilustrativa que muda conforme as semanas de treino">
-          <circle class="head" cx="100" cy="36" r="22"/>
-          <g class="torso" id="tfTorso">
-            <path class="shape" d="M62 72 Q100 60 138 72 L140 170 Q100 182 60 170 Z"/>
-          </g>
-          <ellipse class="belly" id="tfBelly" cx="100" cy="176" rx="42" ry="30"/>
-          <rect class="shape tf-arm" id="tfArmL" x="36" y="80" width="20" height="104" rx="10"/>
-          <rect class="shape tf-arm" id="tfArmR" x="144" y="80" width="20" height="104" rx="10"/>
-          <rect class="shape" x="68" y="182" width="28" height="144" rx="13"/>
-          <rect class="shape" x="104" y="182" width="28" height="144" rx="13"/>
-        </svg>
-        <figure class="ia-card">
-          <img src="fotos/ilustracao/ilustracao-ia-antes.webp" alt="Ilustração gerada por IA, não é uma pessoa real" loading="lazy">
-          <p>Ilustração gerada por IA, apenas para exemplo. Não representa cliente real nem garante resultado.</p>
-        </figure>
-      </div>
+    <div class="container tf">
+      <figure class="tf-fig reveal" id="tfPortrait" role="img" aria-label="Retrato ilustrativo do modelo na semana 0">
+        <img src="fotos/transformacao/semana-00.webp" alt="" loading="lazy" decoding="async">
+        <img src="fotos/transformacao/semana-03.webp" alt="" loading="lazy" decoding="async">
+        <img src="fotos/transformacao/semana-06.webp" alt="" loading="lazy" decoding="async">
+        <img src="fotos/transformacao/semana-09.webp" alt="" loading="lazy" decoding="async">
+        <img src="fotos/transformacao/semana-12.webp" alt="" loading="lazy" decoding="async">
+      </figure>
 
-      <div class="sil-ctrl reveal">
+      <div class="tf-ctrl reveal">
         <span class="eyebrow">Transformação ilustrativa</span>
         <h2 class="title">Veja a <span class="red">evolução</span></h2>
-        <p class="lead">Arraste o controle e veja como o corpo pode mudar com as semanas de treino e alimentação equilibrada.</p>
+        <p class="lead">Arraste o controle para acompanhar a mudança na aparência do modelo ao longo das semanas.</p>
         <div class="big" id="tfWeeks">Semana 0</div>
         <div class="state" id="tfState">Ponto de partida</div>
-        <input type="range" id="tfRange" min="0" max="12" step="1" value="0" aria-label="Semanas de treino">
-        <div class="scale"><span>0</span><span>3</span><span>6</span><span>9</span><span>12</span></div>
-        <div class="row2">
-          <button class="btn btn-primary" id="tfPlay">▶ Animar</button>
-          <a href="#contato" class="btn btn-ghost">Quero começar</a>
+        <input type="range" id="tfRange" min="0" max="12" step="1" value="0" aria-label="Semana da transformação ilustrativa" aria-valuetext="Semana 0">
+        <div class="scale" aria-hidden="true"><span>0</span><span>3</span><span>6</span><span>9</span><span>12</span></div>
+        <div class="tf-steps" role="group" aria-label="Comparar semanas">
+          <button type="button" class="chip" data-week="0" aria-pressed="true">Início</button>
+          <button type="button" class="chip" data-week="6" aria-pressed="false">Semana 6</button>
+          <button type="button" class="chip" data-week="12" aria-pressed="false">Semana 12</button>
         </div>
-        <p class="note">Ilustração fictícia, sem garantia de resultado. Os resultados reais variam conforme treino, alimentação, descanso e acompanhamento profissional.</p>
+        <div class="row2">
+          <button type="button" class="btn btn-primary" id="tfPlay">▶ Animar</button>
+          <a href="#planos" class="btn btn-ghost">Ver planos</a>
+        </div>
+        <p class="note">Simulação com imagens geradas por IA. Os resultados reais variam de pessoa para pessoa.</p>
       </div>
     </div>
   </section>
@@ -1199,45 +1185,67 @@
   if (!range) return;
   const weeksEl = document.getElementById('tfWeeks');
   const stateEl = document.getElementById('tfState');
-  const belly = document.getElementById('tfBelly');
-  const torso = document.getElementById('tfTorso');
-  const armL = document.getElementById('tfArmL');
-  const armR = document.getElementById('tfArmR');
+  const portrait = document.getElementById('tfPortrait');
+  const frames = portrait.querySelectorAll('img');
   const playBtn = document.getElementById('tfPlay');
+  const checkpoints = document.querySelectorAll('.tf-steps [data-week]');
+  const lastWeek = Number(range.max);
+  const weeksPerFrame = lastWeek / (frames.length - 1);
   const states = [
-    [0, 'Ponto de partida'], [3, 'Começando a mexer'], [6, 'Ganhando força'],
-    [9, 'Corpo mais definido'], [12, 'Transformação completa']
+    'Ponto de partida', 'Primeira etapa', 'Evolução intermediária',
+    'Etapa avançada', 'Última etapa'
   ];
-  function render(v) {
-    const t = v / 12;
-    weeksEl.textContent = 'Semana ' + v;
-    let label = states[0][1];
-    states.forEach(([min, txt]) => { if (v >= min) label = txt; });
-    stateEl.textContent = label;
-    belly.style.transform = `scale(${(1 - t * 0.85).toFixed(3)})`;
-    belly.style.opacity = (0.95 - t * 0.7).toFixed(2);
-    torso.style.transform = `scale(${(1.12 - t * 0.22).toFixed(3)}, 1)`;
-    const arm = (0.92 + t * 0.32).toFixed(3);
-    armL.style.transform = `scale(${arm})`;
-    armR.style.transform = `scale(${arm})`;
-  }
-  range.addEventListener('input', () => render(+range.value));
-  render(+range.value);
-
   let timer = null;
+
+  function render() {
+    const week = Number(range.value);
+    const position = week / weeksPerFrame;
+    const current = Math.floor(position);
+    const weekLabel = `Semana ${week}`;
+
+    weeksEl.textContent = weekLabel;
+    stateEl.textContent = states[current];
+    range.setAttribute('aria-valuetext', weekLabel);
+    portrait.setAttribute('aria-label', `Retrato ilustrativo do modelo na semana ${week}`);
+    checkpoints.forEach(button => button.setAttribute('aria-pressed', Number(button.dataset.week) === week));
+    for (let index = 1; index < frames.length; index++) {
+      // Later portraits sit over the earlier ones in chronological order.
+      frames[index].style.opacity = Math.max(0, Math.min(1, position - index + 1));
+    }
+  }
+
+  function stop() {
+    clearInterval(timer);
+    timer = null;
+    playBtn.textContent = '▶ Animar';
+  }
+
   playBtn.addEventListener('click', () => {
-    if (timer) { clearInterval(timer); timer = null; playBtn.textContent = '▶ Animar'; return; }
-    if (+range.value >= 12) range.value = 0;
+    if (timer !== null) {
+      stop();
+      return;
+    }
+    if (Number(range.value) === lastWeek) {
+      range.value = '0';
+      render();
+    }
     playBtn.textContent = '❚❚ Pausar';
     timer = setInterval(() => {
-      let v = +range.value + 1;
-      if (v > 12) { clearInterval(timer); timer = null; playBtn.textContent = '▶ Animar'; return; }
-      range.value = v; render(v);
+      range.stepUp();
+      render();
+      if (Number(range.value) === lastWeek) stop();
     }, 500);
   });
+  checkpoints.forEach(button => button.addEventListener('click', () => {
+    if (timer !== null) stop();
+    range.value = button.dataset.week;
+    render();
+  }));
   range.addEventListener('input', () => {
-    if (timer) { clearInterval(timer); timer = null; playBtn.textContent = '▶ Animar'; }
+    if (timer !== null) stop();
+    render();
   });
+  render();
 })();
 </script>
 </body>
