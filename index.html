@@ -11,19 +11,23 @@
     --text: #ffffff; --muted: #9b9b9b; --red: #c6f135; --red-2: #d9ff4d;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   body { font-family: 'Archivo', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
   a { color: inherit; text-decoration: none; }
   img { max-width: 100%; display: block; }
   button { font-family: inherit; }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+  .skip-link { position: fixed; top: 8px; left: 12px; z-index: 200; padding: 10px 16px; color: #0b0b0b; background: var(--red); transform: translateY(-150%); }
+  .skip-link:focus { transform: none; }
   .container { width: min(1180px, 92%); margin: 0 auto; }
   h1, h2, h3, .display { font-family: 'Archivo Black', 'Archivo', sans-serif; text-transform: uppercase; letter-spacing: -.5px; line-height: 1.05; font-weight: 400; }
   section { padding: 110px 0; position: relative; }
   .red { color: var(--red); }
 
   /* Reveal */
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
+  .enhanced .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+  .enhanced .reveal.visible { opacity: 1; transform: none; }
 
   /* Buttons */
   .btn { display: inline-block; padding: 16px 34px; border-radius: 4px; font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; border: 2px solid var(--red); background: transparent; color: var(--text); cursor: pointer; transition: transform .15s, background .2s, border-color .2s; }
@@ -39,30 +43,35 @@
   .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
   .logo { font-family: 'Archivo Black', sans-serif; font-size: 22px; letter-spacing: 1px; text-transform: uppercase; }
   .logo span { color: var(--red); }
-  .menu { display: flex; gap: 30px; list-style: none; align-items: center; }
+  .menu { display: flex; gap: clamp(14px, 1.8vw, 26px); list-style: none; align-items: center; }
   .menu a { color: #cfcfcf; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; transition: color .2s; position: relative; }
   .menu a:hover, .menu a.active { color: #fff; }
   .menu a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px; background: var(--red); }
   .progress { position: absolute; left: 0; bottom: -1px; height: 2px; background: var(--red); width: 0; }
   .nav .btn { padding: 11px 22px; font-size: 12px; }
-  .burger { display: none; background: none; border: 0; color: #fff; font-size: 26px; cursor: pointer; }
+  .burger { display: none; place-items: center; width: 44px; height: 44px; background: none; border: 1px solid #333; color: #fff; cursor: pointer; }
+  .burger svg { width: 22px; height: 22px; }
 
   /* Hero */
-  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; text-align: left; position: relative; padding: 140px 0 100px; background: #000; overflow: hidden; }
-  .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: grayscale(1) contrast(1.15) brightness(.9); opacity: 0; animation: vfade 1.2s ease forwards; }
-  @keyframes vfade { to { opacity: 1; } }
-  .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to right, rgba(0,0,0,.9) 0%, rgba(0,0,0,.75) 32%, rgba(0,0,0,0) 62%), linear-gradient(to top, rgba(0,0,0,.6), transparent 30%); }
-  .hero .content { position: relative; z-index: 2; width: min(560px, 48%); margin-left: 6%; margin-right: auto; }
-  .hero h1 { font-size: clamp(56px, 11vw, 150px); color: var(--red); text-shadow: 0 6px 30px rgba(198,241,53,.25); }
-  .hero .sub { font-size: clamp(18px, 2.4vw, 26px); font-weight: 600; margin: 14px 0 34px; text-transform: none; }
-  .hero .actions { display: flex; justify-content: flex-start; gap: 14px; flex-wrap: wrap; }
-  .stats { display: flex; justify-content: flex-start; gap: 44px; margin-top: 60px; flex-wrap: wrap; }
-  .stats strong { display: block; font-family: 'Archivo Black', sans-serif; font-size: 44px; color: #fff; line-height: 1; }
-  .stats span { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; }
-  .vertical { z-index: 2; position: absolute; left: -30px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-family: 'Archivo Black', sans-serif; font-size: 120px; color: rgba(255,255,255,.03); letter-spacing: 6px; pointer-events: none; white-space: nowrap; }
-  .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); width: 26px; height: 42px; border: 2px solid #fff; border-radius: 20px; z-index: 2; }
-  .scroll-cue::after { content: ""; position: absolute; left: 50%; top: 8px; width: 4px; height: 8px; margin-left: -2px; background: var(--red); border-radius: 2px; animation: drop 1.6s infinite; }
-  @keyframes drop { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
+  .hero { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; position: relative; padding: 126px 0 72px; background: #000; overflow: hidden; }
+  .hero-poster, .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: grayscale(1) contrast(1.1) brightness(.9); }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.56) 42%, transparent 78%), linear-gradient(0deg, #000 0%, transparent 19%); }
+  .hero .content { position: relative; z-index: 2; max-width: 1180px; }
+  .hero .copy { max-width: 620px; }
+  .hero h1 { font-size: clamp(48px, 7.1vw, 104px); color: var(--red); line-height: .99; }
+  .hero h1 span { display: block; }
+  .hero .sub { font-size: clamp(17px, 2vw, 23px); max-width: 34ch; font-weight: 600; margin: 22px 0 28px; }
+  .hero .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero .actions .btn { text-align: center; }
+  .hero-motion { position: absolute; top: 86px; right: max(4%, 16px); z-index: 3; min-height: 44px; padding: 8px 14px; color: #fff; background: rgba(0,0,0,.78); border: 1px solid #777; border-radius: 4px; cursor: pointer; }
+  @media (max-width: 650px) {
+    .hero { align-items: flex-end; padding: 112px 0 52px; }
+    .hero-poster, .hero-video { object-position: 89% center; }
+    .hero-motion { right: auto; left: 4%; }
+    .hero::after { background: linear-gradient(0deg, #000 1%, rgba(0,0,0,.87) 35%, rgba(0,0,0,.38) 60%, rgba(0,0,0,.02) 100%); }
+    .hero h1 { font-size: clamp(38px, 11.8vw, 65px); }
+    .hero .actions .btn { flex: 1 1 100%; }
+  }
 
   /* Split layout */
   .split { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
@@ -107,10 +116,15 @@
   .ex .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 18px 18px; background: linear-gradient(transparent, rgba(0,0,0,.95)); }
   .ex .cap small { display: block; color: var(--red); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
   .ex .cap h3 { font-size: 19px; margin-top: 4px; }
+  .ex-open { position: absolute; inset: 0; width: 100%; border: 0; background: transparent; cursor: pointer; }
+  .ex-open:focus-visible { outline-offset: -4px; }
+  .mod { position: relative; }
+  .mod-action::after { content: ""; position: absolute; inset: 0; }
+  .mod:focus-within, .ex:focus-within { border-color: var(--red); }
 
   /* Lightbox */
   .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.92); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
-  .lightbox.open { display: flex; animation: fade .25s ease; }
+  .lightbox[open] { display: flex; animation: fade .25s ease; }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   .lightbox .box { max-width: 520px; width: 100%; background: var(--panel); border: 1px solid var(--line); }
   .lightbox img { width: 100%; max-height: 70vh; object-fit: cover; filter: grayscale(1) contrast(1.05); }
@@ -145,7 +159,7 @@
   .switch button::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .3s; }
   .switch button.on { background: var(--red); }
   .switch button.on::after { transform: translateX(26px); }
-  .switch .save { background: var(--red); color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 3px; }
+  .switch .save { background: var(--red); color: #0b0b0b; font-size: 11px; padding: 3px 10px; border-radius: 3px; }
   .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; align-items: stretch; }
   .plan { background: var(--bg); border: 1px solid var(--line); padding: 38px 30px; display: flex; flex-direction: column; position: relative; transition: transform .25s; }
   .plan:hover { transform: translateY(-6px); }
@@ -155,9 +169,11 @@
   .plan.featured li::before { color: #0b0b0b; }
   .plan .flag { position: absolute; top: 16px; right: 16px; background: #0b0b0b; color: var(--red); font-size: 10px; font-weight: 800; padding: 4px 10px; letter-spacing: 1px; text-transform: uppercase; }
   .plan h3 { font-size: 26px; }
-  .plan .price { font-family: 'Archivo Black', sans-serif; font-size: 52px; line-height: 1; margin: 16px 0 6px; }
+  .plan .price { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; font-family: 'Archivo Black', sans-serif; font-size: clamp(30px, 3.5vw, 46px); line-height: 1; margin: 16px 0 6px; }
   .plan .price small { font-family: 'Archivo', sans-serif; font-size: 14px; color: var(--muted); }
   .plan .sub { color: var(--muted); font-size: 14px; }
+  .plan .annual-total { font-size: 14px; font-weight: 700; margin: 4px 0 8px; }
+  .plan .price span { white-space: nowrap; }
   .plan ul { list-style: none; margin: 20px 0 30px; flex: 1; }
   .plan li { padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 14px; }
   .plan li::before { content: "✓ "; color: var(--red); font-weight: 800; }
@@ -190,6 +206,9 @@
   form input.invalid { border-color: var(--red-2); }
   form textarea { min-height: 110px; resize: vertical; }
   .err { color: var(--red-2); font-size: 12px; min-height: 14px; text-transform: none; letter-spacing: 0; }
+  .form-selection { padding: 12px; border-left: 3px solid var(--red); background: var(--panel-2); }
+  .form-selection p { font-size: 14px; }
+  .form-selection button { display: block; min-height: 44px; border: 0; background: transparent; color: var(--red); text-decoration: underline; cursor: pointer; }
   .form-msg { color: var(--red); font-size: 14px; min-height: 22px; text-align: center; font-weight: 700; }
   .success { text-align: center; padding: 30px 10px; display: none; }
   .success .check { font-size: 56px; color: var(--red); }
@@ -207,23 +226,27 @@
   .to-top { position: fixed; right: 22px; bottom: 22px; width: 50px; height: 50px; border: 0; background: var(--red); color: #fff; font-size: 20px; cursor: pointer; opacity: 0; transform: translateY(20px); transition: all .3s; z-index: 40; }
   .to-top.show { opacity: 1; transform: none; }
 
-  @media (max-width: 900px) {
-    .menu { display: none; position: absolute; top: 72px; left: 0; right: 0; background: #000; flex-direction: column; padding: 24px 4%; border-bottom: 1px solid var(--line); gap: 20px; }
+  @media (max-width: 1020px) {
+    .menu { display: none; position: absolute; top: 72px; left: 0; right: 0; background: #000; flex-direction: column; align-items: stretch; padding: 10px 5%; border-bottom: 1px solid var(--line); gap: 0; max-height: calc(100svh - 72px); overflow-y: auto; }
+    .menu a { display: flex; align-items: center; min-height: 44px; }
+    .menu a.active::after { bottom: 3px; }
     .menu.open { display: flex; }
-    .burger { display: block; }
+    .burger { display: grid; }
     .nav > .btn { display: none; }
-    .split { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 900px) {
+    .split { grid-template-columns: minmax(0, 1fr); gap: 40px; }
     .split.reverse .text { order: 0; }
     .mod-grid { grid-template-columns: 1fr; }
     .plan:hover { transform: none; }
-    .vertical { display: none; }
-    section { padding: 80px 0; }
-    .stats { gap: 30px; }
-    .hero { justify-content: center; text-align: center; }
-    .hero .content { width: auto; margin: 0 auto; }
-    .hero .actions { justify-content: center; }
-    .stats { justify-content: center; }
-    .hero::after { background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.85) 70%, #000); }
+    section { padding-block: 80px; }
+    .hero { padding-top: 118px; }
+  }
+  @media (max-width: 480px) {
+    .imc, form, .mbox { padding: 22px; }
+    .imc .row { grid-template-columns: minmax(0, 1fr); }
+    form input, form select, form textarea { min-width: 0; width: 100%; }
+    .foot .social { flex-wrap: wrap; }
   }
   .side-text { position: fixed; left: 18px; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); font-family: "Archivo Black", sans-serif; font-size: 72px; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.14); letter-spacing: 10px; white-space: nowrap; pointer-events: none; z-index: 5; }
   .side-text b { color: transparent; -webkit-text-stroke: 1px var(--red); opacity: .55; font-weight: 400; }
@@ -231,6 +254,7 @@
   .dumb svg { width: 100%; height: auto; display: block; }
   .dumb.l { left: -40px; top: 12%; transform: rotate(-35deg); }
   .dumb.r { right: -40px; bottom: 10%; transform: rotate(40deg); }
+  #modalidades { overflow: clip; }
   #modalidades > .container, #exercicios > .container { position: relative; z-index: 2; }
   @media (max-width: 900px) { .side-text { display: none; } .dumb { width: 90px; } }
 
@@ -240,15 +264,13 @@
   .btn { position: relative; overflow: hidden; }
   .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,.45); transform: scale(0); animation: rip .7s linear forwards; pointer-events: none; }
   @keyframes rip { to { transform: scale(4); opacity: 0; } }
-  .ltr { display: inline-block; opacity: 0; transform: translateY(45px); animation: ltrIn .7s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: var(--d); }
-  @keyframes ltrIn { to { opacity: 1; transform: none; } }
-  .typed-cursor { display: inline-block; width: 2px; height: 1em; background: var(--red); margin-left: 3px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
   .tilt { transition: transform .25s ease, border-color .25s; transform-style: preserve-3d; }
   .modal { position: fixed; inset: 0; background: rgba(0,0,0,.9); display: none; align-items: center; justify-content: center; z-index: 110; padding: 20px; }
-  .modal.open { display: flex; animation: fade .25s ease; }
+  .modal[open] { display: flex; animation: fade .25s ease; }
+  .modal, .lightbox { width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; border: 0; color: var(--text); overflow: auto; }
+  body:has(dialog[open]) { overflow: hidden; }
   .mbox { position: relative; width: min(520px, 100%); background: var(--panel); border: 1px solid var(--line); padding: 34px; transform: translateY(20px) scale(.98); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
-  .modal.open .mbox { transform: none; }
+  .modal[open] .mbox { transform: none; }
   .mbox h3 { font-size: 30px; margin: 8px 0 22px; }
   .mlabel { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin: 18px 0 10px; }
   .mrow { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -261,27 +283,40 @@
   @media (max-width: 900px) { .glow { display: none; } }
 
   /* ===== Transformação ===== */
-  .tf { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .tf-fig { background: var(--panel); border: 1px solid var(--line); padding: 30px; display: flex; justify-content: center; }
-  .tf-fig svg { width: min(300px, 100%); height: auto; }
-  .tf-fig.dual { flex-direction: column; align-items: center; gap: 22px; }
+  .tf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 60px; align-items: center; }
+  @media (max-width: 900px) {
+    .tf { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .enhanced .reveal { opacity: 1; transform: none; }
+    .glow { display: none; }
+  }
+  /* ===== Silhueta da evolução ===== */
+  /* ===== Transformação ===== */
+  .sil { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .sil-fig { background: var(--panel); border: 1px solid var(--line); padding: 30px; display: flex; justify-content: center; }
+  .sil-fig svg { width: min(300px, 100%); height: auto; }
+  .sil-fig.dual { flex-direction: column; align-items: center; gap: 22px; }
   .ia-card { width: min(300px, 100%); }
   .ia-card img { width: 100%; display: block; filter: grayscale(1); }
   .ia-card p { color: var(--muted); font-size: 12px; margin-top: 8px; line-height: 1.5; }
-  .tf-fig .shape { fill: #d9d9d9; transform-box: fill-box; transform-origin: center; transition: transform .35s ease; }
-  .tf-fig .belly { fill: #6b6b6b; transform-box: fill-box; transform-origin: center; transition: transform .35s ease, opacity .35s ease; }
-  .tf-fig .torso { transform-box: fill-box; transform-origin: center; transition: transform .35s ease; }
-  .tf-fig .head { fill: #ececec; }
-  .tf-ctrl .big { font-family: 'Archivo Black', sans-serif; font-size: 64px; line-height: 1; color: var(--red); }
-  .tf-ctrl .state { font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 14px; margin: 8px 0 26px; }
-  .tf-ctrl input[type=range] { width: 100%; accent-color: var(--red); cursor: pointer; }
-  .tf-ctrl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 6px; }
-  .tf-ctrl .row2 { display: flex; gap: 12px; align-items: center; margin-top: 26px; flex-wrap: wrap; }
-  .tf-ctrl .note { color: var(--muted); font-size: 12px; margin-top: 22px; line-height: 1.5; }
-  @media (max-width: 900px) { .tf { grid-template-columns: 1fr; gap: 36px; } }
+  .sil-fig .shape { fill: #d9d9d9; transform-box: fill-box; transform-origin: center; transition: transform .35s ease; }
+  .sil-fig .belly { fill: #6b6b6b; transform-box: fill-box; transform-origin: center; transition: transform .35s ease, opacity .35s ease; }
+  .sil-fig .torso { transform-box: fill-box; transform-origin: center; transition: transform .35s ease; }
+  .sil-fig .head { fill: #ececec; }
+  .sil-ctrl .big { font-family: 'Archivo Black', sans-serif; font-size: 64px; line-height: 1; color: var(--red); }
+  .sil-ctrl .state { font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 14px; margin: 8px 0 26px; }
+  .sil-ctrl input[type=range] { width: 100%; accent-color: var(--red); cursor: pointer; }
+  .sil-ctrl .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 6px; }
+  .sil-ctrl .row2 { display: flex; gap: 12px; align-items: center; margin-top: 26px; flex-wrap: wrap; }
+  .sil-ctrl .note { color: var(--muted); font-size: 12px; margin-top: 22px; line-height: 1.5; }
+  @media (max-width: 900px) { .sil { grid-template-columns: 1fr; gap: 36px; } }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
 <header>
   <div class="container nav">
@@ -290,34 +325,35 @@
       <li><a href="#modalidades">Modalidades</a></li>
       <li><a href="#exercicios">Exercícios</a></li>
       <li><a href="#treinadores">Personais</a></li>
+      <li><a href="#transformacao">Evolução</a></li>
       <li><a href="#planos">Planos</a></li>
       <li><a href="#imc">IMC</a></li>
       <li><a href="#contato">Contato</a></li>
     </ul>
-    <a href="#contato" class="btn btn-primary">Agende agora</a>
-    <button class="burger" id="burger" aria-label="Abrir menu">☰</button>
+    <a href="#contato" class="btn btn-primary">Simular agendamento</a>
+    <button type="button" class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
   </div>
   <div class="progress" id="progress"></div>
 </header>
 
-<main>
+<main id="conteudo" tabindex="-1">
   <!-- HERO -->
-  <section class="hero" id="inicio" style="padding-top:150px;">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="fotos/pernas/levantamento-terra.webp" aria-hidden="true"><source src="video/hero-rosca-v2.mp4" type="video/mp4"></video>
+  <section class="hero" id="inicio" aria-labelledby="heroTitle">
+    <img class="hero-poster" src="fotos/hero/academia.webp" alt="" fetchpriority="high" width="1280" height="720">
+    <video class="hero-video" id="heroVideo" data-src="video/hero-rosca-v2.mp4" poster="fotos/hero/academia.webp" muted loop playsinline preload="none" aria-hidden="true" hidden></video>
+    <button type="button" class="hero-motion" id="heroMotion" hidden>Pausar vídeo</button>
     <div class="container content">
-      <h1>SEJA MAIS<br>FORTE</h1>
-      <p class="sub" id="typed">Personal trainers de verdade para o seu corpo</p>
-      <div class="actions">
-        <a href="#contato" class="btn btn-primary">Comece agora</a>
-        <a href="#treinadores" class="btn btn-ghost">Ver personais</a>
-      </div>
-      <div class="stats">
-        <div><strong data-count="120" data-suffix="+">0</strong><span>Alunos atendidos</span></div>
-        <div><strong data-count="15">0</strong><span>Personal trainers</span></div>
-        <div><strong data-count="4.9" data-decimals="1" data-suffix="★">0</strong><span>Avaliação média</span></div>
+      <div class="copy">
+        <h1 id="heroTitle"><span>Treine no</span> <span>seu ritmo.</span></h1>
+        <p class="sub">Treinos personalizados para seu objetivo, com acompanhamento que cabe na sua rotina.</p>
+        <div class="actions">
+          <a href="#planos" class="btn btn-primary">Conhecer os planos</a>
+          <a href="#transformacao" class="btn btn-ghost">Ver a evolução</a>
+        </div>
       </div>
     </div>
-    <div class="scroll-cue"></div>
   </section>
 
   <!-- MODALIDADES -->
@@ -334,25 +370,25 @@
             <div class="ico">🏋️</div>
             <h3>Musculação</h3>
             <p>Força e massa muscular com treinos periodizados.</p>
-            <span class="go">Ver →</span>
+            <a class="go mod-action" href="#exercicios" aria-label="Ver exercícios de Musculação">Ver exercícios</a>
           </div>
           <div class="mod reveal" data-filter="hiit">
             <div class="ico">🔥</div>
             <h3>HIIT</h3>
             <p>Intervalos intensos para queimar calorias rápido.</p>
-            <span class="go">Ver →</span>
+            <a class="go mod-action" href="#exercicios" aria-label="Ver exercícios de HIIT">Ver exercícios</a>
           </div>
           <div class="mod reveal" data-filter="funcional">
             <div class="ico">🧘</div>
             <h3>Funcional</h3>
             <p>Mobilidade, equilíbrio e disposição no dia a dia.</p>
-            <span class="go">Ver →</span>
+            <a class="go mod-action" href="#exercicios" aria-label="Ver exercícios de Funcional">Ver exercícios</a>
           </div>
           <div class="mod reveal" data-filter="emagrecimento">
             <div class="ico">🥗</div>
             <h3>Emagrecimento</h3>
             <p>Treino e orientação alimentar para perder gordura.</p>
-            <span class="go">Ver →</span>
+            <a class="go mod-action" href="#exercicios" aria-label="Ver exercícios de Emagrecimento">Ver exercícios</a>
           </div>
         </div>
       </div>
@@ -372,60 +408,72 @@
         <h2 class="title">Execute com <span class="red">técnica</span></h2>
       </div>
       <div class="chips" id="exChips">
-        <button class="chip active" data-group="todos">Todos</button>
-        <button class="chip" data-group="pernas">Pernas</button>
-        <button class="chip" data-group="membros">Membros superiores</button>
-        <button class="chip" data-group="abdomen">Abdômen e funcional</button>
-        <button class="chip" data-group="cardio">Cardio</button>
+        <button class="chip active" data-group="todos" aria-pressed="true">Todos</button>
+        <button class="chip" data-group="pernas" aria-pressed="false">Pernas</button>
+        <button class="chip" data-group="membros" aria-pressed="false">Membros superiores</button>
+        <button class="chip" data-group="abdomen" aria-pressed="false">Abdômen e funcional</button>
+        <button class="chip" data-group="cardio" aria-pressed="false">Cardio</button>
       </div>
       <div class="ex-grid" id="exGrid">
         <article class="ex reveal" data-group="pernas" data-src="fotos/pernas/agachamento-com-barra.webp" data-name="Agachamento com barra" data-cat="Pernas">
           <img src="fotos/pernas/agachamento-com-barra.webp" alt="Agachamento com barra" loading="lazy">
           <div class="cap"><small>Pernas</small><h3>Agachamento com barra</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Agachamento com barra" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="pernas" data-src="fotos/pernas/afundo-com-halteres.webp" data-name="Afundo com halteres" data-cat="Pernas">
           <img src="fotos/pernas/afundo-com-halteres.webp" alt="Afundo com halteres" loading="lazy">
           <div class="cap"><small>Pernas</small><h3>Afundo com halteres</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Afundo com halteres" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="pernas" data-src="fotos/pernas/levantamento-terra.webp" data-name="Levantamento terra" data-cat="Pernas">
           <img src="fotos/pernas/levantamento-terra.webp" alt="Levantamento terra com barra" loading="lazy">
           <div class="cap"><small>Pernas</small><h3>Levantamento terra</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Levantamento terra" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="membros" data-src="fotos/membros-superiores/flexao-de-bracos.webp" data-name="Flexão de braços" data-cat="Membros superiores">
           <img src="fotos/membros-superiores/flexao-de-bracos.webp" alt="Flexão de braços com acompanhamento" loading="lazy">
           <div class="cap"><small>Membros superiores</small><h3>Flexão de braços</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Flexão de braços" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="membros" data-src="fotos/membros-superiores/supino-com-halteres.webp" data-name="Supino com halteres" data-cat="Membros superiores">
           <img src="fotos/membros-superiores/supino-com-halteres.webp" alt="Supino com halteres" loading="lazy">
           <div class="cap"><small>Membros superiores</small><h3>Supino com halteres</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Supino com halteres" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="membros" data-src="fotos/membros-superiores/puxada-frontal.webp" data-name="Puxada frontal" data-cat="Membros superiores">
           <img src="fotos/membros-superiores/puxada-frontal.webp" alt="Puxada frontal no aparelho" loading="lazy">
           <div class="cap"><small>Membros superiores</small><h3>Puxada frontal</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Puxada frontal" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="membros" data-src="fotos/membros-superiores/desenvolvimento-com-halteres.webp" data-name="Desenvolvimento com halteres" data-cat="Membros superiores">
           <img src="fotos/membros-superiores/desenvolvimento-com-halteres.webp" alt="Desenvolvimento de ombros com halteres" loading="lazy">
           <div class="cap"><small>Membros superiores</small><h3>Desenvolvimento</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Desenvolvimento com halteres" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="membros" data-src="fotos/membros-superiores/rosca-biceps-com-halter.webp" data-name="Rosca de bíceps" data-cat="Membros superiores">
           <img src="fotos/membros-superiores/rosca-biceps-com-halter.webp" alt="Rosca de bíceps com halter" loading="lazy">
           <div class="cap"><small>Membros superiores</small><h3>Rosca de bíceps</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Rosca de bíceps" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="abdomen" data-src="fotos/abdomen-e-funcional/prancha.webp" data-name="Prancha" data-cat="Abdômen e funcional">
           <img src="fotos/abdomen-e-funcional/prancha.webp" alt="Prancha" loading="lazy">
           <div class="cap"><small>Abdômen e funcional</small><h3>Prancha</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Prancha" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="abdomen" data-src="fotos/abdomen-e-funcional/balanco-com-kettlebell.webp" data-name="Balanço com kettlebell" data-cat="Abdômen e funcional">
           <img src="fotos/abdomen-e-funcional/balanco-com-kettlebell.webp" alt="Balanço com kettlebell" loading="lazy">
           <div class="cap"><small>Abdômen e funcional</small><h3>Balanço com kettlebell</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Balanço com kettlebell" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="cardio" data-src="fotos/cardio/pular-corda.webp" data-name="Pular corda" data-cat="Cardio">
           <img src="fotos/cardio/pular-corda.webp" alt="Pular corda" loading="lazy">
           <div class="cap"><small>Cardio</small><h3>Pular corda</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Pular corda" aria-haspopup="dialog"></button>
         </article>
         <article class="ex reveal" data-group="cardio" data-src="fotos/cardio/corrida-na-esteira.webp" data-name="Corrida na esteira" data-cat="Cardio">
           <img src="fotos/cardio/corrida-na-esteira.webp" alt="Corrida na esteira" loading="lazy">
           <div class="cap"><small>Cardio</small><h3>Corrida na esteira</h3></div>
+          <button type="button" class="ex-open" aria-label="Visualizar Corrida na esteira" aria-haspopup="dialog"></button>
         </article>
       </div>
     </div>
@@ -440,16 +488,16 @@
         <p class="lead" style="margin:18px auto 0;">Profissionais fictícios apenas para demonstração. Toque no coração para favoritar.</p>
       </div>
       <div class="chips" id="trainerChips" style="justify-content:center;">
-        <button class="chip active" data-spec="todos">Todos</button>
-        <button class="chip" data-spec="musculacao">Musculação</button>
-        <button class="chip" data-spec="funcional">Funcional</button>
-        <button class="chip" data-spec="hiit">HIIT</button>
+        <button class="chip active" data-spec="todos" aria-pressed="true">Todos</button>
+        <button class="chip" data-spec="musculacao" aria-pressed="false">Musculação</button>
+        <button class="chip" data-spec="funcional" aria-pressed="false">Funcional</button>
+        <button class="chip" data-spec="hiit" aria-pressed="false">HIIT</button>
       </div>
       <div class="trainers">
         <article class="trainer reveal" data-spec="musculacao hiit">
           <div class="avatar" style="background: linear-gradient(135deg, #c6f135, #2a0000);">
             <span class="badge">Disponível</span>
-            <button class="fav" aria-label="Favoritar">♡</button>
+            <button class="fav" aria-label="Favoritar" aria-pressed="false">♡</button>
             <span class="initials">RM</span>
           </div>
           <div class="t-body">
@@ -457,13 +505,13 @@
             <div class="spec">Musculação & Hipertrofia</div>
             <ul class="meta"><li>📍 Cidade Exemplo - UF</li><li>🎓 CREF 000000-G/XX (fictício)</li><li>⏱ 8 anos de experiência</li></ul>
             <div class="rating">★★★★★ 4.9 (48 avaliações)</div>
-            <a href="#contato" class="btn btn-primary btn-block" data-pick="Musculação">Agendar aula</a>
+            <a href="#contato" class="btn btn-primary btn-block" data-pick="Musculação">Simular aula</a>
           </div>
         </article>
         <article class="trainer reveal" data-spec="funcional">
           <div class="avatar" style="background: linear-gradient(135deg, #111, #000);">
             <span class="badge">Disponível</span>
-            <button class="fav" aria-label="Favoritar">♡</button>
+            <button class="fav" aria-label="Favoritar" aria-pressed="false">♡</button>
             <span class="initials">AC</span>
           </div>
           <div class="t-body">
@@ -471,13 +519,13 @@
             <div class="spec">Funcional & Emagrecimento</div>
             <ul class="meta"><li>📍 Cidade Exemplo - UF</li><li>🎓 CREF 000000-G/XX (fictício)</li><li>⏱ 5 anos de experiência</li></ul>
             <div class="rating">★★★★★ 4.8 (36 avaliações)</div>
-            <a href="#contato" class="btn btn-primary btn-block" data-pick="Funcional">Agendar aula</a>
+            <a href="#contato" class="btn btn-primary btn-block" data-pick="Funcional">Simular aula</a>
           </div>
         </article>
         <article class="trainer reveal" data-spec="hiit">
           <div class="avatar" style="background: linear-gradient(135deg, #1a1a1a, #000);">
             <span class="badge">Poucas vagas</span>
-            <button class="fav" aria-label="Favoritar">♡</button>
+            <button class="fav" aria-label="Favoritar" aria-pressed="false">♡</button>
             <span class="initials">LF</span>
           </div>
           <div class="t-body">
@@ -485,7 +533,7 @@
             <div class="spec">HIIT & Crossfit</div>
             <ul class="meta"><li>📍 Cidade Exemplo - UF</li><li>🎓 CREF 000000-G/XX (fictício)</li><li>⏱ 6 anos de experiência</li></ul>
             <div class="rating">★★★★☆ 4.7 (29 avaliações)</div>
-            <a href="#contato" class="btn btn-primary btn-block" data-pick="HIIT">Agendar aula</a>
+            <a href="#contato" class="btn btn-primary btn-block" data-pick="HIIT">Simular aula</a>
           </div>
         </article>
       </div>
@@ -493,67 +541,10 @@
     </div>
   </section>
 
-  <!-- PLANOS -->
-  <section id="planos" class="alt">
-    <div class="container">
-      <div class="section-head center reveal">
-        <span class="eyebrow">Planos</span>
-        <h2 class="title">Invista <span class="red">em você</span></h2>
-        <p class="lead" style="margin:18px auto 0;">Valores fictícios de demonstração.</p>
-      </div>
-      <div class="switch reveal">
-        <span>Mensal</span>
-        <button id="billing" aria-label="Alternar cobrança anual" role="switch" aria-checked="false"></button>
-        <span>Anual <span class="save">-20%</span></span>
-      </div>
-      <div class="plans">
-        <div class="plan reveal">
-          <h3>Básico</h3>
-          <div class="price"><span data-price="199">R$ 199</span><small>/mês</small></div>
-          <p class="sub">Para quem está começando</p>
-          <ul>
-            <li>2 treinos por semana</li>
-            <li>Ficha de treino mensal</li>
-            <li>Avaliação física inicial</li>
-            <li>Acesso ao app</li>
-          </ul>
-          <a href="#contato" class="btn btn-block" data-pick="Musculação">Escolher plano</a>
-        </div>
-        <div class="plan featured reveal">
-          <span class="flag">Mais escolhido</span>
-          <h3>Regular</h3>
-          <div class="price"><span data-price="349">R$ 349</span><small>/mês</small></div>
-          <p class="sub">Resultados consistentes</p>
-          <ul>
-            <li>4 treinos por semana</li>
-            <li>Acompanhamento semanal</li>
-            <li>Avaliação a cada 30 dias</li>
-            <li>Orientação nutricional básica</li>
-            <li>Acesso ao app</li>
-          </ul>
-          <a href="#contato" class="btn btn-block" style="background:#0b0b0b;color:var(--red);border-color:#0b0b0b;" data-pick="Funcional">Escolher plano</a>
-        </div>
-        <div class="plan reveal">
-          <h3>Premium</h3>
-          <div class="price"><span data-price="599">R$ 599</span><small>/mês</small></div>
-          <p class="sub">Acompanhamento total</p>
-          <ul>
-            <li>Treinos ilimitados</li>
-            <li>Personal exclusivo</li>
-            <li>Plano alimentar personalizado</li>
-            <li>Avaliações quinzenais</li>
-            <li>Suporte prioritário no WhatsApp</li>
-          </ul>
-          <a href="#contato" class="btn btn-block" data-pick="Emagrecimento">Escolher plano</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- TRANSFORMAÇÃO -->
   <section id="transformacao" class="alt">
-    <div class="container tf">
-      <div class="tf-fig dual reveal">
+    <div class="container sil">
+      <div class="sil-fig dual reveal">
         <svg viewBox="0 0 200 340" aria-label="Silhueta ilustrativa que muda conforme as semanas de treino">
           <circle class="head" cx="100" cy="36" r="22"/>
           <g class="torso" id="tfTorso">
@@ -571,7 +562,7 @@
         </figure>
       </div>
 
-      <div class="tf-ctrl reveal">
+      <div class="sil-ctrl reveal">
         <span class="eyebrow">Transformação ilustrativa</span>
         <h2 class="title">Veja a <span class="red">evolução</span></h2>
         <p class="lead">Arraste o controle e veja como o corpo pode mudar com as semanas de treino e alimentação equilibrada.</p>
@@ -584,6 +575,66 @@
           <a href="#contato" class="btn btn-ghost">Quero começar</a>
         </div>
         <p class="note">Ilustração fictícia, sem garantia de resultado. Os resultados reais variam conforme treino, alimentação, descanso e acompanhamento profissional.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section id="planos">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Planos</span>
+        <h2 class="title">Invista <span class="red">em você</span></h2>
+        <p class="lead" style="margin:18px auto 0;">Valores fictícios de demonstração.</p>
+      </div>
+      <div class="switch reveal">
+        <span>Mensal</span>
+        <button id="billing" aria-label="Alternar cobrança anual" role="switch" aria-checked="false"></button>
+        <span>Anual <span class="save">-20%</span></span>
+      </div>
+      <div class="plans">
+        <div class="plan reveal">
+          <h3>Básico</h3>
+          <div class="price"><span data-price="199">R$ 199</span><small>/mês</small></div>
+          <p class="annual-total" hidden></p>
+          <p class="sub">Para quem está começando</p>
+          <ul>
+            <li>2 treinos por semana</li>
+            <li>Ficha de treino mensal</li>
+            <li>Avaliação física inicial</li>
+            <li>Acesso ao app</li>
+          </ul>
+          <a href="#contato" class="btn btn-block" data-pick="Musculação" data-plan="Básico">Escolher plano</a>
+        </div>
+        <div class="plan featured reveal">
+          <span class="flag">Mais escolhido</span>
+          <h3>Regular</h3>
+          <div class="price"><span data-price="349">R$ 349</span><small>/mês</small></div>
+          <p class="annual-total" hidden></p>
+          <p class="sub">Resultados consistentes</p>
+          <ul>
+            <li>4 treinos por semana</li>
+            <li>Acompanhamento semanal</li>
+            <li>Avaliação a cada 30 dias</li>
+            <li>Orientação nutricional básica</li>
+            <li>Acesso ao app</li>
+          </ul>
+          <a href="#contato" class="btn btn-block" style="background:#0b0b0b;color:var(--red);border-color:#0b0b0b;" data-pick="Funcional" data-plan="Regular">Escolher plano</a>
+        </div>
+        <div class="plan reveal">
+          <h3>Premium</h3>
+          <div class="price"><span data-price="599">R$ 599</span><small>/mês</small></div>
+          <p class="annual-total" hidden></p>
+          <p class="sub">Acompanhamento total</p>
+          <ul>
+            <li>Treinos ilimitados</li>
+            <li>Personal exclusivo</li>
+            <li>Plano alimentar personalizado</li>
+            <li>Avaliações quinzenais</li>
+            <li>Suporte prioritário no WhatsApp</li>
+          </ul>
+          <a href="#contato" class="btn btn-block" data-pick="Emagrecimento" data-plan="Premium">Escolher plano</a>
+        </div>
       </div>
     </div>
   </section>
@@ -617,7 +668,7 @@
       <div class="contact-info reveal">
         <span class="eyebrow">Fale conosco</span>
         <h2 class="title">Comece <span class="red">hoje</span></h2>
-        <p>Preencha o formulário ou fale direto com a nossa equipe. Dados abaixo são fictícios.</p>
+        <p>Experimente como funcionaria um agendamento. Os dados de contato abaixo são fictícios.</p>
         <div class="info-item">
           <div class="ico">📱</div>
           <div><strong>WhatsApp</strong><span>(00) 00000-0000 (fictício)</span></div>
@@ -639,13 +690,19 @@
       <div class="reveal">
         <form id="form" novalidate>
           <div id="formBody" style="display:grid;gap:18px;">
+            <div class="form-selection" id="formSelection" hidden>
+              <p id="selectedPlan" role="status"></p>
+              <input type="hidden" name="plano" id="planoSelecionado">
+              <input type="hidden" name="cobranca" id="cobrancaSelecionada">
+              <button type="button" id="removePlan">Remover plano</button>
+            </div>
             <label>Nome
-              <input type="text" name="nome" id="nome" placeholder="Seu nome">
-              <span class="err" data-err="nome"></span>
+              <input type="text" name="nome" id="nome" placeholder="Seu nome" autocomplete="name" aria-describedby="nomeErro" required>
+              <span class="err" id="nomeErro" data-err="nome"></span>
             </label>
             <label>WhatsApp
-              <input type="tel" name="telefone" id="telefone" placeholder="(00) 00000-0000" maxlength="16">
-              <span class="err" data-err="telefone"></span>
+              <input type="tel" name="telefone" id="telefone" placeholder="(00) 00000-0000" maxlength="16" autocomplete="tel-national" inputmode="tel" aria-describedby="telefoneErro" required>
+              <span class="err" id="telefoneErro" data-err="telefone"></span>
             </label>
             <label>Modalidade de interesse
               <select name="modalidade" id="modalidade">
@@ -658,14 +715,14 @@
             <label>Mensagem
               <textarea name="mensagem" placeholder="Conte um pouco sobre o seu objetivo"></textarea>
             </label>
-            <button type="submit" class="btn btn-primary btn-block">Enviar solicitação</button>
-            <div class="form-msg" id="msg"></div>
+            <button type="submit" class="btn btn-primary btn-block">Simular agendamento</button>
+            <div class="form-msg" id="msg" role="alert"></div>
           </div>
-          <div class="success" id="success">
+          <div class="success" id="success" tabindex="-1">
             <div class="check">✔</div>
-            <h3 style="font-size:34px;margin:10px 0;">Recebemos seu pedido!</h3>
+            <h3 style="font-size:34px;margin:10px 0;">Simulação concluída</h3>
             <p style="color:var(--muted);">Esta é uma demonstração: nenhum dado foi enviado.</p>
-            <button type="button" class="btn btn-ghost" id="again" style="margin-top:20px;">Enviar outro</button>
+            <button type="button" class="btn btn-ghost" id="again" style="margin-top:20px;">Fazer nova simulação</button>
           </div>
         </form>
       </div>
@@ -680,9 +737,7 @@
       <p>Site fictício de demonstração.</p>
     </div>
     <div class="social">
-      <a href="#">Instagram</a>
-      <a href="#">WhatsApp</a>
-      <a href="#">E-mail</a>
+      <a href="#contato">Simular agendamento</a>
     </div>
   </div>
   <div class="dev">Site desenvolvido por <strong>Jefferson Ramalho</strong></div>
@@ -690,10 +745,10 @@
 
 <div class="glow" id="glow"></div>
 
-<div class="modal" id="bookModal" role="dialog" aria-modal="true" aria-label="Agendar aula">
+<dialog class="modal" id="bookModal" aria-labelledby="mTitle">
   <div class="mbox">
-    <button class="mclose" id="mClose" aria-label="Fechar">×</button>
-    <span class="eyebrow">Agendar aula</span>
+    <button class="mclose" id="mClose" aria-label="Fechar" autofocus>×</button>
+    <span class="eyebrow">Agendamento demonstrativo</span>
     <h3 id="mTitle">Escolha dia e horário</h3>
     <div class="mlabel">Dia</div>
     <div class="mrow" id="mDays"></div>
@@ -701,11 +756,11 @@
     <div class="mrow" id="mTimes"></div>
     <button class="btn btn-primary btn-block" id="mConfirm" disabled>Confirmar horário</button>
   </div>
-</div>
+</dialog>
 
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizar exercício">
-  <button class="lb-close" id="lbClose" aria-label="Fechar">×</button>
+<dialog class="lightbox" id="lightbox" aria-labelledby="lbName">
+  <button class="lb-close" id="lbClose" aria-label="Fechar" autofocus>×</button>
   <div class="box">
     <img id="lbImg" src="" alt="">
     <div class="info">
@@ -716,64 +771,120 @@
       </div>
     </div>
   </div>
-</div>
+</dialog>
 
-<button class="to-top" id="toTop" aria-label="Voltar ao topo">↑</button>
+<button class="to-top" id="toTop" aria-label="Voltar ao topo" hidden>↑</button>
 
 <script>
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* Vídeo de abertura e preferência de movimento */
+  const heroVideo = $('#heroVideo'), heroMotion = $('#heroMotion');
+  function showPoster() {
+    heroVideo.hidden = true;
+    heroMotion.hidden = true;
+  }
+  function playHero() {
+    heroVideo.play().catch(() => { heroMotion.textContent = 'Reproduzir vídeo'; });
+  }
+  function updateHero() {
+    if (reducedMotion.matches) {
+      showPoster();
+      heroVideo.pause();
+      if (heroVideo.hasAttribute('src')) {
+        heroVideo.removeAttribute('src');
+        heroVideo.load();
+      }
+      return;
+    }
+    heroVideo.src = heroVideo.dataset.src;
+    heroVideo.hidden = false;
+    heroMotion.hidden = false;
+    playHero();
+  }
+  heroVideo.addEventListener('play', () => { heroMotion.textContent = 'Pausar vídeo'; });
+  heroVideo.addEventListener('pause', () => { heroMotion.textContent = 'Reproduzir vídeo'; });
+  heroVideo.addEventListener('error', showPoster);
+  heroMotion.addEventListener('click', () => {
+    if (heroVideo.paused) playHero();
+    else heroVideo.pause();
+  });
+  reducedMotion.addEventListener('change', updateHero);
+  updateHero();
+
   /* Menu mobile */
   const burger = $('#burger'), menu = $('#menu');
-  burger.addEventListener('click', () => menu.classList.toggle('open'));
-  $$('a', menu).forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+  function setMenu(open) {
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+  }
+  burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  $$('a', menu).forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu.classList.contains('open')) {
+      setMenu(false);
+      burger.focus();
+    }
+  });
 
   /* Progresso, link ativo, topo */
-  const progress = $('#progress'), toTop = $('#toTop'), header = $('header');
+  const progress = $('#progress'), toTop = $('#toTop');
   const navLinks = $$('.menu a');
   const sections = navLinks.map(a => $(a.getAttribute('href'))).filter(Boolean);
   function onScroll() {
     const h = document.documentElement;
     const pct = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
     progress.style.width = (pct * 100) + '%';
-    toTop.classList.toggle('show', h.scrollTop > 600);
-    header.style.background = h.scrollTop > 40 ? 'rgba(0,0,0,.95)' : 'rgba(0,0,0,.95)';
+    toTop.hidden = h.scrollTop <= 600;
+    toTop.classList.toggle('show', !toTop.hidden);
     let current = null;
     sections.forEach(sec => { if (sec.getBoundingClientRect().top < 140) current = sec.id; });
-    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    navLinks.forEach(a => {
+      const active = a.hash === '#' + current;
+      a.classList.toggle('active', active);
+      if (active) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  toTop.addEventListener('click', () => {
+    $('.nav .logo').focus({ preventScroll: true });
+    window.scrollTo({ top: 0 });
+  });
 
   /* Revelar ao rolar */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); } });
-  }, { threshold: 0.12 });
-  $$('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
-
-  /* Contadores */
-  const counterIO = new IntersectionObserver((entries) => {
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
-      const el = en.target, target = parseFloat(el.dataset.count), dec = +(el.dataset.decimals || 0), suf = el.dataset.suffix || '';
-      const start = performance.now(), dur = 1400;
-      const step = (now) => {
-        const t = Math.min((now - start) / dur, 1), eased = 1 - Math.pow(1 - t, 3);
-        el.textContent = (target * eased).toFixed(dec) + suf;
-        if (t < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-      counterIO.unobserve(el);
+  if ('IntersectionObserver' in window && !reducedMotion.matches) {
+    document.documentElement.classList.add('enhanced');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+    $$('.reveal').forEach(element => observer.observe(element));
+    document.addEventListener('focusin', event => {
+      event.target.closest('.reveal')?.classList.add('visible');
     });
-  }, { threshold: 0.5 });
-  $$('[data-count]').forEach(el => counterIO.observe(el));
+  }
+
+  function setFilter(chips, key, value) {
+    chips.forEach(chip => {
+      const active = chip.dataset[key] === value;
+      chip.classList.toggle('active', active);
+      chip.setAttribute('aria-pressed', active);
+    });
+  }
 
   /* Filtro de exercícios */
   function filterExercises(g) {
-    $$('#exChips .chip').forEach(c => c.classList.toggle('active', c.dataset.group === g));
+    setFilter($$('#exChips .chip'), 'group', g);
     $$('#exGrid .ex').forEach(card => {
       card.classList.toggle('hidden', !(g === 'todos' || card.dataset.group === g));
     });
@@ -783,7 +894,7 @@
   /* Modalidades: filtra personais e exercícios e rola até a seção */
   const modToGroup = { musculacao: 'pernas', hiit: 'cardio', funcional: 'abdomen', emagrecimento: 'cardio' };
   function filterTrainers(s) {
-    $$('#trainerChips .chip').forEach(c => c.classList.toggle('active', c.dataset.spec === s));
+    setFilter($$('#trainerChips .chip'), 'spec', s);
     let count = 0;
     $$('.trainer').forEach(t => {
       const show = s === 'todos' || t.dataset.spec.split(' ').includes(s);
@@ -793,39 +904,41 @@
     $('#trainerEmpty').style.display = count ? 'none' : 'block';
   }
   $$('#trainerChips .chip').forEach(chip => chip.addEventListener('click', () => filterTrainers(chip.dataset.spec)));
-  $$('.mod').forEach(mod => mod.addEventListener('click', () => {
-    const f = mod.dataset.filter;
-    filterExercises(modToGroup[f] || 'todos');
-    filterTrainers(['musculacao','hiit','funcional'].includes(f) ? f : 'todos');
-    document.getElementById('exercicios').scrollIntoView({ behavior: 'smooth' });
+  $$('.mod-action').forEach(link => link.addEventListener('click', () => {
+    const filter = link.closest('.mod').dataset.filter;
+    filterExercises(modToGroup[filter] || 'todos');
+    filterTrainers(['musculacao','hiit','funcional'].includes(filter) ? filter : 'todos');
   }));
 
   /* Lightbox */
   const lb = $('#lightbox'), lbImg = $('#lbImg'), lbName = $('#lbName'), lbCat = $('#lbCat');
   let visibleCards = [], idx = 0;
-  function openAt(i) {
-    idx = i;
+  function displayExercise(index) {
+    idx = index;
     const card = visibleCards[idx];
-    lbImg.src = card.dataset.src; lbImg.alt = card.dataset.name;
-    lbName.textContent = card.dataset.name; lbCat.textContent = card.dataset.cat;
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    lbImg.src = card.dataset.src;
+    lbImg.alt = card.dataset.name;
+    lbName.textContent = card.dataset.name;
+    lbCat.textContent = card.dataset.cat;
   }
-  function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-  function move(d) { idx = (idx + d + visibleCards.length) % visibleCards.length; openAt(idx); }
-  $$('#exGrid .ex').forEach(card => card.addEventListener('click', () => {
+  function move(offset) {
+    displayExercise((idx + offset + visibleCards.length) % visibleCards.length);
+  }
+  $$('#exGrid .ex-open').forEach(button => button.addEventListener('click', () => {
     visibleCards = $$('#exGrid .ex:not(.hidden)');
-    openAt(visibleCards.indexOf(card));
+    displayExercise(visibleCards.indexOf(button.closest('.ex')));
+    lb.showModal();
   }));
-  $('#lbClose').addEventListener('click', closeLb);
-  $('#lbPrev').addEventListener('click', (e) => { e.stopPropagation(); move(-1); });
-  $('#lbNext').addEventListener('click', (e) => { e.stopPropagation(); move(1); });
-  lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
-  document.addEventListener('keydown', (e) => {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLb();
-    if (e.key === 'ArrowLeft') move(-1);
-    if (e.key === 'ArrowRight') move(1);
+  $('#lbClose').addEventListener('click', () => lb.close());
+  $('#lbPrev').addEventListener('click', () => move(-1));
+  $('#lbNext').addEventListener('click', () => move(1));
+  lb.addEventListener('click', event => { if (event.target === lb) lb.close(); });
+  lb.addEventListener('keydown', event => {
+    const direction = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+    if (direction) {
+      event.preventDefault();
+      move(direction);
+    }
   });
 
   /* Favoritos */
@@ -835,25 +948,49 @@
     btn.setAttribute('aria-pressed', on);
   }));
 
-  /* Preenche modalidade no formulário */
-  const modSelect = $('#modalidade');
-  $$('[data-pick]').forEach(a => a.addEventListener('click', () => {
-    const v = a.dataset.pick;
-    const opt = $$('option', modSelect).find(o => o.textContent === v);
-    if (opt) modSelect.value = opt.textContent;
-  }));
-
-  /* Planos mensal / anual */
-  const billing = $('#billing');
-  billing.addEventListener('click', () => {
-    const on = billing.classList.toggle('on');
-    billing.setAttribute('aria-checked', on);
-    $$('[data-price]').forEach(el => {
-      const base = +el.dataset.price;
-      el.textContent = 'R$ ' + (on ? Math.round(base * 0.8) : base);
+  /* Valores e seleção do plano */
+  const modSelect = $('#modalidade'), billing = $('#billing');
+  const planSelection = $('#formSelection'), planName = $('#planoSelecionado'), planBilling = $('#cobrancaSelecionada');
+  const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  function showPrices() {
+    const annual = billing.getAttribute('aria-checked') === 'true';
+    $$('.plan').forEach(plan => {
+      const price = $('[data-price]', plan);
+      const base = Number(price.dataset.price);
+      const monthlyCents = Math.round(base * (annual ? 80 : 100));
+      price.textContent = money.format(monthlyCents / 100);
+      $('.price small', plan).textContent = annual ? '/mês no anual' : '/mês';
+      const total = $('.annual-total', plan);
+      total.hidden = !annual;
+      total.textContent = annual ? `${money.format(monthlyCents * 12 / 100)} por ano` : '';
     });
-    $$('.plan .price small').forEach(s => s.textContent = on ? '/mês (anual)' : '/mês');
+  }
+  billing.addEventListener('click', () => {
+    const annual = billing.classList.toggle('on');
+    billing.setAttribute('aria-checked', annual);
+    showPrices();
   });
+  showPrices();
+
+  function clearPlan() {
+    planName.value = '';
+    planBilling.value = '';
+    $('#selectedPlan').textContent = '';
+    planSelection.hidden = true;
+  }
+  $('#removePlan').addEventListener('click', () => {
+    clearPlan();
+    modSelect.focus({ preventScroll: true });
+  });
+  $$('[data-pick]').forEach(link => link.addEventListener('click', () => {
+    modSelect.value = link.dataset.pick;
+    if (!link.dataset.plan) return;
+    const annual = billing.getAttribute('aria-checked') === 'true';
+    planName.value = link.dataset.plan;
+    planBilling.value = annual ? 'anual' : 'mensal';
+    planSelection.hidden = false;
+    $('#selectedPlan').textContent = `Plano ${planName.value} · ${annual ? 'Cobrança anual' : 'Cobrança mensal'}`;
+  }));
 
   /* IMC */
   $('#calcImc').addEventListener('click', () => {
@@ -884,7 +1021,10 @@
     phoneInput.value = d;
   });
   function setErr(name, text) {
-    form.elements[name].classList.toggle('invalid', !!text);
+    const field = form.elements[name];
+    field.classList.toggle('invalid', !!text);
+    if (text) field.setAttribute('aria-invalid', 'true');
+    else field.removeAttribute('aria-invalid');
     $(`[data-err="${name}"]`).textContent = text || '';
   }
   form.addEventListener('submit', (e) => {
@@ -894,15 +1034,22 @@
     let ok = true;
     if (nome.length < 3) { setErr('nome', 'Digite seu nome completo.'); ok = false; } else setErr('nome', '');
     if (tel.length < 10) { setErr('telefone', 'Informe um WhatsApp com DDD.'); ok = false; } else setErr('telefone', '');
-    if (!ok) { msg.textContent = 'Corrija os campos destacados.'; return; }
+    if (!ok) {
+      msg.textContent = 'Corrija os campos destacados.';
+      form.querySelector('[aria-invalid=true]').focus();
+      return;
+    }
     msg.textContent = '';
     $('#formBody').style.display = 'none';
     $('#success').classList.add('show');
+    $('#success').focus();
   });
   $('#again').addEventListener('click', () => {
     form.reset();
+    clearPlan();
     $('#success').classList.remove('show');
     $('#formBody').style.display = 'grid';
+    $('#nome').focus();
   });
 })();
 </script>
@@ -912,54 +1059,11 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  /* Título letra por letra */
-  const h1 = $('.hero h1');
-  if (h1) {
-    let i = 0;
-    Array.from(h1.childNodes).forEach(node => {
-      if (node.nodeType !== 3) return;
-      const frag = document.createDocumentFragment();
-      Array.from(node.textContent).forEach(ch => {
-        if (ch === ' ') { frag.appendChild(document.createTextNode(' ')); return; }
-        const span = document.createElement('span');
-        span.className = 'ltr';
-        span.style.setProperty('--d', (i * 0.05) + 's');
-        span.textContent = ch;
-        frag.appendChild(span);
-        i++;
-      });
-      node.replaceWith(frag);
-    });
-  }
-
-  /* Subtítulo com frases rotativas */
-  const typed = $('#typed');
-  if (typed) {
-    const phrases = ['Personal trainers de verdade para o seu corpo', 'Treino sob medida para o seu objetivo', 'Resultado que você sente na prática'];
-    let p = 0, c = 0, deleting = false;
-    const cur = document.createElement('span'); cur.className = 'typed-cursor';
-    typed.textContent = ''; typed.appendChild(document.createTextNode('')); typed.appendChild(cur);
-    const tick = () => {
-      const full = phrases[p];
-      const textNode = typed.firstChild;
-      if (!deleting) {
-        c++;
-        textNode.textContent = full.slice(0, c);
-        if (c === full.length) { deleting = true; return setTimeout(tick, 1800); }
-        setTimeout(tick, 45);
-      } else {
-        c--;
-        textNode.textContent = full.slice(0, c);
-        if (c === 0) { deleting = false; p = (p + 1) % phrases.length; return setTimeout(tick, 350); }
-        setTimeout(tick, 22);
-      }
-    };
-    setTimeout(tick, 900);
-  }
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* Efeito ripple nos botões */
   $$('.btn').forEach(btn => btn.addEventListener('click', (e) => {
+    if (reducedMotion.matches || e.detail === 0) return;
     const r = btn.getBoundingClientRect(), size = Math.max(r.width, r.height);
     const dot = document.createElement('span');
     dot.className = 'ripple';
@@ -974,17 +1078,34 @@
     /* Glow que segue o cursor */
     const glow = $('#glow');
     let gx = 0, gy = 0, tx = 0, ty = 0;
-    window.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; glow.classList.add('on'); });
-    window.addEventListener('mouseleave', () => glow.classList.remove('on'));
-    (function loop() {
-      gx += (tx - gx) * 0.12; gy += (ty - gy) * 0.12;
+    let frame = 0;
+    function followPointer() {
+      gx += (tx - gx) * .12; gy += (ty - gy) * .12;
       glow.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
-      requestAnimationFrame(loop);
-    })();
+      frame = Math.abs(tx - gx) + Math.abs(ty - gy) > 1 ? requestAnimationFrame(followPointer) : 0;
+    }
+    window.addEventListener('mousemove', event => {
+      if (reducedMotion.matches) return;
+      tx = event.clientX; ty = event.clientY;
+      glow.classList.add('on');
+      if (!frame) frame = requestAnimationFrame(followPointer);
+    });
+    window.addEventListener('mouseleave', () => glow.classList.remove('on'));
+    reducedMotion.addEventListener('change', () => {
+      if (!reducedMotion.matches) return;
+      cancelAnimationFrame(frame);
+      frame = 0;
+      glow.classList.remove('on');
+      $$('.btn-primary, .tilt').forEach(element => {
+        element.style.transform = '';
+        element.style.borderColor = '';
+      });
+    });
 
     /* Botões magnéticos */
     $$('.btn-primary').forEach(btn => {
       btn.addEventListener('mousemove', (e) => {
+        if (reducedMotion.matches) return;
         const r = btn.getBoundingClientRect();
         const x = (e.clientX - r.left - r.width / 2) * 0.22;
         const y = (e.clientY - r.top - r.height / 2) * 0.3;
@@ -997,6 +1118,7 @@
     $$('.trainer, .plan, .mod').forEach(card => {
       card.classList.add('tilt');
       card.addEventListener('mousemove', (e) => {
+        if (reducedMotion.matches) return;
         const r = card.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width - 0.5;
         const py = (e.clientY - r.top) / r.height - 0.5;
@@ -1017,9 +1139,15 @@
     mDays.innerHTML = '';
     days.forEach(d => {
       const b = document.createElement('button');
+      b.type = 'button';
       b.className = 'slot' + (d === day ? ' sel' : '');
+      b.setAttribute('aria-pressed', d === day);
       b.textContent = d;
-      b.addEventListener('click', () => { day = d; time = null; renderDays(); renderTimes(); updateConfirm(); });
+      b.addEventListener('click', () => {
+        day = d; time = null;
+        renderDays(); renderTimes(); updateConfirm();
+        $('.sel', mDays).focus();
+      });
       mDays.appendChild(b);
     });
   }
@@ -1028,34 +1156,39 @@
     times.forEach(t => {
       const b = document.createElement('button');
       const off = !day || busy(day, t);
+      b.type = 'button';
       b.className = 'slot' + (t === time ? ' sel' : '');
+      b.setAttribute('aria-pressed', t === time);
       b.textContent = t;
       b.disabled = off;
-      b.addEventListener('click', () => { time = t; renderTimes(); updateConfirm(); });
+      b.addEventListener('click', () => {
+        time = t;
+        renderTimes(); updateConfirm();
+        $('.sel', mTimes).focus();
+      });
       mTimes.appendChild(b);
     });
   }
-  function updateConfirm() { mConfirm.disabled = !(day && time); mConfirm.textContent = day && time ? `Confirmar ${day} às ${time}` : 'Confirmar horário'; }
+  function updateConfirm() { mConfirm.disabled = !(day && time); mConfirm.textContent = day && time ? `Simular ${day} às ${time}` : 'Simular horário'; }
   function openModal(name) {
     trainer = name; day = null; time = null;
     mTitle.textContent = 'Aula com ' + name;
     renderDays(); renderTimes(); updateConfirm();
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    modal.showModal();
   }
-  function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+  function closeModal() { modal.close(); }
   $$('.trainer a.btn').forEach(a => a.addEventListener('click', (e) => {
     e.preventDefault();
     openModal(a.closest('.trainer').querySelector('h3').textContent);
   }));
   $('#mClose').addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
   mConfirm.addEventListener('click', () => {
     const area = document.querySelector('#form textarea[name="mensagem"]');
     area.value = `Quero agendar aula com ${trainer}: ${day} às ${time} (demonstração).`;
     closeModal();
-    document.getElementById('contato').scrollIntoView({ behavior: 'smooth' });
+    $('#nome').focus({ preventScroll: true });
+    $('#contato').scrollIntoView();
   });
 })();
 </script>
